@@ -1,49 +1,115 @@
- # Link to Bracket
 
- **Link to Bracket** is a Python program designed to automate the process of modifying HTML and HTML5 files by replacing certain patterns with specified format strings.
+ # Link to Bracket Converter
 
- ## Purpose
+ This project converts HTML file links (href and src attributes) into Django template static file tags. The conversion ensures that only links not already formatted with `{% static 'address' %}` are modified. The project uses configuration from a file to determine the tag to be used in the conversion.
 
- The program serves as a convenient tool for developers and webmasters who need to perform batch modifications on HTML and HTML5 files, particularly when updating links to match a specific template or framework.
+ ## Project Structure
 
- ## Functionality
+ ```
+ project_root/
+ ├── link_to_bracket.py
+ ├── urls.py
+ ├── confi.txt
+ ├── templates_raw/
+ │   ├── raw html files...
+ ├── templates_new/
+ │   ├── new html files...
+ ├── src/
+ │   ├── confi_read/
+ │   │   └── confi_read.py
+ │   ├── find_htmls/
+ │   │   └── find_files.py
+ │   ├── modifications/
+ │   │   └── replacer.py
+ ├── tests/
+ │   ├── test_link_to_bracket.py
+ │   ├── test_urls.py
+ │   ├── test_confi_read.py
+ │   ├── test_find_files.py
+ │   ├── test_replacer.py
+ ```
 
- The program offers the following key features:
+ ## Description
 
- 1. **Variable Extraction**: Reads variables from a configuration file (`confi.txt`). These variables are used as parameters for the modification process, allowing users to customize the replacement strings according to their requirements.
+ ### link_to_bracket.py
 
- 2. **File Discovery**: Locates HTML and HTML5 files in a specified directory (`templates_raw`). This directory serves as the input source for the modification process.
+ This script orchestrates the conversion process. It:
+ 1. Reads the configuration to get the tag word.
+ 2. Finds all HTML files in the specified directory.
+ 3. Reads each HTML file and performs the link conversion.
+ 4. Writes the converted content to a new directory.
 
- 3. **Modification**: Modifies the contents of the HTML and HTML5 files, replacing specific patterns (e.g., `href="address"` or `src="address"`) with `{% given_word 'address' %}` format strings. The modification process ensures consistency and adherence to the desired template or framework.
+ ### urls.py
 
- 4. **Output**: Writes the modified contents to a new directory (`templates_new`). The output directory contains the updated files, preserving the original file structure while incorporating the necessary modifications.
+ This script contains paths and imports the necessary modules:
+ - `confi_read` for reading the configuration file.
+ - `find_files` for finding HTML files.
+ - `replacer` for performing the text replacement.
 
- ## Usage
+ ### confi.txt
 
- To use the program, follow these steps:
+ A configuration file to specify the word to be placed before links.
 
- 1. Ensure that the `confi.txt` file contains the necessary variables, such as the word to be used in the replacement strings.
- 2. Place your HTML and HTML5 files in the `templates_raw` directory.
- 3. Run the `link_to_bracket.py` script using Python 3.x.
+ Example:
+ ```
+ #########################################
+ #                                       #
+ #          link to bracket-er           #
+ #                                       #
+ #########################################
+ #
+ #  Print below '*' word to be placed before link
+ * link_word
+ static
+ ```
 
- ## Components
+ ### src/confi_read/confi_read.py
 
- The program consists of the following components:
+ Contains a function to extract variables from the configuration file.
 
- - `link_to_bracket.py`: Main script that orchestrates the program's functionality, including variable extraction, file discovery, modification, and output handling.
- - `urls.py`: Module containing paths and imports for the program, facilitating modularity and organization.
- - `src/`: Directory containing submodules for specific tasks.
-   - `confi_read/`: Module for extracting variables from the configuration file (`confi_read.py`).
-   - `find_htmls/`: Module for finding HTML and HTML5 files (`find_files.py`).
-   - `modifications/`: Module for performing modifications on files (`replacer.py`).
+ ### src/find_htmls/find_files.py
 
- ## Dependencies
+ Contains a function to find all HTML and HTML5 files in a given directory.
 
- The program relies on Python 3.x and the following standard libraries:
- - `os`
- - `fnmatch`
- - `re`
+ ### src/modifications/replacer.py
+
+ Contains a class `TextReplacer` that replaces `href` and `src` attributes in the HTML files with the specified tag word.
+
+ ### tests/
+
+ Contains test files to ensure the functionality of the entire project using `pytest`.
+
+ ## How to Use
+
+ 1. **Clone the repository:**
+    ```sh
+    git clone <repository_url>
+    cd project_root
+    ```
+
+ 2. **Install dependencies:**
+    This project uses Python 3. Make sure you have it installed, along with `pytest` for testing.
+
+ 3. **Run the main script:**
+    ```sh
+    python link_to_bracket.py
+    ```
+    This will read the configuration from `confi.txt`, find all HTML files in the `templates_raw` directory, convert the links, and save the new files in the `templates_new` directory.
+
+ 4. **Run the tests:**
+    To run the tests and ensure everything is working correctly:
+    ```sh
+    pytest
+    ```
 
  ## License
 
- This program is released under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for more details.
+ This project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
+
+ ## Contributing
+
+ Contributions are welcome! Please create a pull request with your changes or open an issue for any bugs or feature requests.
+
+ ## Contact
+
+ For any questions or suggestions, please contact [your email/contact information].
