@@ -11,8 +11,8 @@ class TextReplacer:
         """Replaces all occurrences of href="address" with href="{% given_word 'address' %}"."""
 
         pattern = r'href\s*=\s*"([^"]+)"'
-        replacement = r'href = "{% ' + self.given_word + r" '\1' %}"
-        new_lines = ["{"+"%"+ self.given_word +"%"+"}\n"]
+        replacement = r'href = "{% ' + self.given_word + r" '\1' %}" + r'"'
+        new_lines = ["{"+"% "+ self.given_word +" %"+"}\n"]
         new_lines+=[re.sub(pattern, replacement, line) for line in lines]
 
         return new_lines
@@ -21,8 +21,8 @@ class TextReplacer:
         """Replaces all occurrences of src="address" with src="{% given_word 'address' %}"."""
 
         pattern = r'src\s*=\s*"([^"]+)"'
-        replacement = r'src = "{% ' + self.given_word + r" '\1' %}"
-        new_lines = ["{"+"%"+ self.given_word +"%"+"}\n"]
+        replacement = r'src = "{% ' + self.given_word + r" '\1' %}" + r'"'
+        new_lines = ["{"+"% "+ self.given_word +" %"+"}\n"]
         new_lines+=[re.sub(pattern, replacement, line) for line in lines]
 
         return new_lines
